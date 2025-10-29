@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Registration Form Validation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f9fa;
+      padding: 20px;
+    }
+    form {
+      background: white;
+      padding: 20px;
+      width: 350px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin: auto;
+    }
+    input[type="text"], input[type="email"], input[type="password"], input[type="tel"] {
+      width: 95%;
+      padding: 8px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    input[type="submit"] {
+      background-color: #28a745;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+    }
+    input[type="submit"]:hover {
+      background-color: #218838;
+    }
+    .error {
+      color: red;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+
+<h2 style="text-align:center;">Registration Form</h2>
+
+<form id="regForm" onsubmit="return validateForm()">
+  <label>Full Name:</label><br>
+  <input type="text" id="name" placeholder="Enter your name"><br>
+  <span class="error" id="nameError"></span><br>
+
+  <label>Email:</label><br>
+  <input type="email" id="email" placeholder="Enter your email"><br>
+  <span class="error" id="emailError"></span><br>
+
+  <label>Mobile Number:</label><br>
+  <input type="tel" id="mobile" placeholder="Enter 10-digit number"><br>
+  <span class="error" id="mobileError"></span><br>
+
+  <label>Password:</label><br>
+  <input type="password" id="password" placeholder="Enter password"><br>
+  <span class="error" id="passwordError"></span><br>
+
+  <label>Confirm Password:</label><br>
+  <input type="password" id="confirmPassword" placeholder="Re-enter password"><br>
+  <span class="error" id="confirmError"></span><br>
+
+  <input type="submit" value="Register">
+</form>
+
+<script>
+function validateForm() {
+  // Clear old errors
+  document.querySelectorAll(".error").forEach(e => e.textContent = "");
+
+  let isValid = true;
+  
+  let name = document.getElementById("name").value.trim();
+  let email = document.getElementById("email").value.trim();
+  let mobile = document.getElementById("mobile").value.trim();
+  let password = document.getElementById("password").value;
+  let confirmPassword = document.getElementById("confirmPassword").value;
+
+  // Name validation
+  if (name === "") {
+    document.getElementById("nameError").textContent = "Name is required";
+    isValid = false;
+  }
+
+  // Email validation
+  let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+  if (!emailPattern.test(email)) {
+    document.getElementById("emailError").textContent = "Enter a valid email address";
+    isValid = false;
+  }
+
+  // Mobile validation
+  let mobilePattern = /^[0-9]{10}$/;
+  if (!mobilePattern.test(mobile)) {
+    document.getElementById("mobileError").textContent = "Enter a valid 10-digit mobile number";
+    isValid = false;
+  }
+
+  // Password validation
+  if (password.length < 6) {
+    document.getElementById("passwordError").textContent = "Password must be at least 6 characters";
+    isValid = false;
+  }
+
+  // Confirm password validation
+  if (password !== confirmPassword) {
+    document.getElementById("confirmError").textContent = "Passwords do not match";
+    isValid = false;
+  }
+
+  // Final check
+  if (isValid) {
+    alert("Registration successful!");
+  }
+
+  return isValid; // Prevent form submission if invalid
+}
+</script>
+
+</body>
+</html>
