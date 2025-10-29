@@ -1,0 +1,46 @@
+<!-- Calendar using JS -->
+<html>
+<body>
+  YEAR: <input type="text" id="year_get"><br><br>
+  MONTH (1–12): <input type="text" id="month_get"><br><br>
+  <input type="submit" id="subtn" value="Display" onclick="generate()"><br><br>
+  <div id="content"></div>
+
+  <script>
+    function generate() {
+      var year = parseInt(document.getElementById("year_get").value);
+      var month = parseInt(document.getElementById("month_get").value) - 1; // 0-based month
+      if (isNaN(year) || isNaN(month) || month < 0 || month > 11) {
+        document.getElementById("content").innerHTML = "Please enter a valid year and month (1–12).";
+        return;
+      }
+
+      var date = new Date(year, month, 1);
+      var init_content = `
+        <table border="1" cellpadding="5" id="calendar">
+          <tr>
+            <th>Sun</th><th>Mon</th><th>Tue</th>
+            <th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th>
+          </tr><tr>
+      `;
+
+      // Add empty cells for days before the 1st
+      for (var i = 0; i < date.getDay(); i++) {
+        init_content += "<td></td>";
+      }
+
+      // Fill the calendar
+      while (date.getMonth() === month) {
+        init_content += "<td>" + date.getDate() + "</td>";
+        if (date.getDay() === 6) {
+          init_content += "</tr><tr>"; // new row after Saturday
+        }
+        date.setDate(date.getDate() + 1);
+      }
+
+      init_content += "</tr></table>";
+      document.getElementById("content").innerHTML = init_content;
+    }
+  </script>
+</body>
+</html>
