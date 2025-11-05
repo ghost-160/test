@@ -1,47 +1,28 @@
 <html>
-
 <head>
 
-<script type="text/javascript"> var i=0;
-
+<script type="text/javascript">
+var i=0;
 function exam()
-
-if(cocument.fini].checked) 1-1-1
-
-if(document.fin20 checked) i+1;
-
-alert("your score is"+"/2");
-
+{
+if(document.f1.n1[0].checked)i=i+1;
+if(document.f1.n2[0].checked)i=i+1;
+alert("Your score is"+i+"/2");
+}
 </script>
-
 </head>
 
 <body>
-
 <h2>Online Exam</h2>
-
-<form name="">
-
-<h3>spelling of 2</h3>
-
-<input type="radio" id="2" name="nl" value="two">two
-
-<input type="radio" id="2" name="nl" value="tow">tow
-
-<h3>which is add number</h3>
-
-<input type="radio" id-"T" name="n2" value="T">1
-
-<input type="radio" id="l" name-"n2" value-"2">2
-
-<br>
-
-<br>
-
-<input type="submit" value-"Submit" onclick="exam()">
-
+<form name="f1">
+<h4>Spelling of 2</h4>
+<input type="radio" id="2" name="n1" value="two">two
+<input type="radio" id="2" name="n1" value="tow">tow
+<h4>Which is odd number</h4>
+<input type="radio" id="1" name="n2" value="1">1
+<input type="radio" id="1" name="n2" value="2">2
+<br><br>
+<input type="submit" value="Submit" onclick="exam()">
 </form>
-
 </body>
-
 </html>
