@@ -1,49 +1,36 @@
+<!DOCTYPE html>
 <html>
-
+<head>
+    <title>Registration Form</title>
+</head>
 <body>
 
-<h1>Registration form</hi>
+<h1>Registration Form</h1>
 
-<form action method="POST">
+<form action="" method="POST">
+    Username: <input type="text" name="username"><br><br>
+    Email: <input type="text" name="email"><br><br>
+    Password: <input type="password" name="pass"><br><br>
+    Confirm Password: <input type="password" name="cpass"><br><br>
 
-Username: <input type="text" name="username"><br> <br> Email: <input
-
-type-"text" name "email"><br> <br> Password: <input type="text"
-
-name="pass"<br> <br>
-
-Confirm password: <input type="text" name="cpass"><br> <br>
-
-<input type="submit" value-"Register">
-
-<?php
-
-if (empty(S POST['username']) II
-
-empty(S POST['pass']) II
-
-empty(S POST['ernai() ||
-
-empty($_POST[cpass'))
-
-}
-
-die("Please fill all required fields!"),
-
-if ($_POST[pass] I-S_POST[cpass))
-
-1
-
-die Password and confirm password should match)
-
-else
-
-die("successfull")
-
-}
-
+    <input type="submit" value="Register">
 </form>
 
-</body>
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Check for empty fields
+    if (empty($_POST['username']) || empty($_POST['email']) || empty($_POST['pass']) || empty($_POST['cpass'])) {
+        die("Please fill all required fields!");
+    }
 
+    // Check if passwords match
+    if ($_POST['pass'] != $_POST['cpass']) {
+        die("Password and confirm password should match!");
+    } else {
+        die("Registration successful!");
+    }
+}
+?>
+
+</body>
 </html>
