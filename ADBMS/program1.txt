@@ -1,0 +1,169 @@
+mysql> create database college
+    -> create table student(roll_no INT(10),name VARCHAR(25),dob DATE,place VARCHAR(30),ph_no INT(12));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'use college
+create table student(roll_no INT(10),name VARCHAR(25),dob DATE,place' at line 2
+mysql> ^C
+mysql> create table student(roll_no INT(10),name VARCHAR(25),dob DATE,place VARCHAR(30),ph_no INT(12));
+ERROR 1046 (3D000): No database selected
+mysql> use college
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> create table student(roll_no INT(10),name VARCHAR(25),dob DATE,place VARCHAR(30),ph_no INT(12));
+Query OK, 0 rows affected, 2 warnings (0.04 sec)
+
+mysql> SHOW WARNINGS
+    -> SHOW WARNINGS;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SHOW WARNINGS' at line 2
+mysql> create table course(course_code VARCHAR(8),course_name VARCHAR(30),credit INT(10));
+Query OK, 0 rows affected, 1 warning (0.05 sec)
+
+mysql> show tables;
++-------------------+
+| Tables_in_college |
++-------------------+
+| STUDENT           |
+| course            |
+| staff             |
+| student           |
++-------------------+
+4 rows in set (0.00 sec)
+
+mysql> DESC student
+    -> DESC student;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'DESC student' at line 2
+mysql> DESC student;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| roll_no | int         | YES  |     | NULL    |       |
+| name    | varchar(25) | YES  |     | NULL    |       |
+| dob     | date        | YES  |     | NULL    |       |
+| place   | varchar(30) | YES  |     | NULL    |       |
+| ph_no   | int         | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+5 rows in set (0.02 sec)
+
+mysql> DESC course;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| course_code | varchar(8)  | YES  |     | NULL    |       |
+| course_name | varchar(30) | YES  |     | NULL    |       |
+| credit      | int         | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> alter table student drop ph_no;
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESC student;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| roll_no | int         | YES  |     | NULL    |       |
+| name    | varchar(25) | YES  |     | NULL    |       |
+| dob     | date        | YES  |     | NULL    |       |
+| place   | varchar(30) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> alter table student add aadhar VARCHAR(20);
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc student
+    -> desc student;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'desc student' at line 2
+mysql> desc student
+    -> desc student;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'desc student' at line 2
+mysql> desc student;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| roll_no | int         | YES  |     | NULL    |       |
+| name    | varchar(25) | YES  |     | NULL    |       |
+| dob     | date        | YES  |     | NULL    |       |
+| place   | varchar(30) | YES  |     | NULL    |       |
+| aadhar  | varchar(20) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> alter table student modify column roll_no VARCHAR(5);
+Query OK, 0 rows affected (0.09 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc student;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| roll_no | varchar(5)  | YES  |     | NULL    |       |
+| name    | varchar(25) | YES  |     | NULL    |       |
+| dob     | date        | YES  |     | NULL    |       |
+| place   | varchar(30) | YES  |     | NULL    |       |
+| aadhar  | varchar(20) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> insert into student values('1','Ghost','2000-11-26','kottayam','123456781234');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> desc student;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| roll_no | varchar(5)  | YES  |     | NULL    |       |
+| name    | varchar(25) | YES  |     | NULL    |       |
+| dob     | date        | YES  |     | NULL    |       |
+| place   | varchar(30) | YES  |     | NULL    |       |
+| aadhar  | varchar(20) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> select * from student;
++---------+-------+------------+----------+--------------+
+| roll_no | name  | dob        | place    | aadhar       |
++---------+-------+------------+----------+--------------+
+| 1       | Ghost | 2000-11-26 | kottayam | 123456781234 |
++---------+-------+------------+----------+--------------+
+1 row in set (0.00 sec)
+
+mysql> select name from student;
++-------+
+| name  |
++-------+
+| Ghost |
++-------+
+1 row in set (0.00 sec)
+
+mysql> drop table student;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> show tables;
++-------------------+
+| Tables_in_college |
++-------------------+
+| STUDENT           |
+| course            |
+| staff             |
++-------------------+
+3 rows in set (0.00 sec)
+
+mysql> drop database college;
+Query OK, 3 rows affected (0.06 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| COLLEGE1           |
+| COLLEGE2           |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+6 rows in set (0.00 sec)
