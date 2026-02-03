@@ -1,0 +1,130 @@
+CREATE TABLE persons (
+    ->     person_id INT PRIMARY KEY,
+    ->     name VARCHAR(50) NOT NULL,
+    ->     aadhar VARCHAR(12) NOT NULL UNIQUE,
+    ->     age INT CHECK (age > 18)
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> show tables
+    -> ;
++----------------+
+| Tables_in_test |
++----------------+
+| persons        |
++----------------+
+1 row in set (0.00 sec)
+
+mysql> create table orders(order_id int primary key,order_name varchar(50) NOT NULL,person_id int,foreign key(person_id) REFERENCES persons(person_id));
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> show tables;
++----------------+
+| Tables_in_test |
++----------------+
+| orders         |
+| persons        |
++----------------+
+2 rows in set (0.00 sec)
+
+mysql> desc persons
+    -> ;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| person_id | int         | NO   | PRI | NULL    |       |
+| name      | varchar(50) | NO   |     | NULL    |       |
+| aadhar    | varchar(12) | NO   | UNI | NULL    |       |
+| age       | int         | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+4 rows in set (0.02 sec)
+
+mysql> desc orders;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| order_id   | int         | NO   | PRI | NULL    |       |
+| order_name | varchar(50) | NO   |     | NULL    |       |
+| person_id  | int         | YES  | MUL | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> create table employee(emp_no int,emp_name varchar(50),place varchar(30),ph_no int(12),dept_name varchar(30),job_id int(5),salary int(10));
+Query OK, 0 rows affected, 3 warnings (0.04 sec)
+
+mysql> desc employee;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| emp_no    | int         | YES  |     | NULL    |       |
+| emp_name  | varchar(50) | YES  |     | NULL    |       |
+| place     | varchar(30) | YES  |     | NULL    |       |
+| ph_no     | int         | YES  |     | NULL    |       |
+| dept_name | varchar(30) | YES  |     | NULL    |       |
+| job_id    | int         | YES  |     | NULL    |       |
+| salary    | int         | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+7 rows in set (0.01 sec)
+
+mysql> alter table employee add primary key(emp_no);
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> create table department(dept_no int,emp_no int(5),emp_name varchar(50));
+Query OK, 0 rows affected, 1 warning (0.05 sec)
+
+mysql> desc department;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| dept_no  | int         | YES  |     | NULL    |       |
+| emp_no   | int         | YES  |     | NULL    |       |
+| emp_name | varchar(50) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> alter table department add primary key(dept_no);
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+ALTER TABLE employee
+    -> ADD dept_no INT;
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE employee
+    -> ADD CONSTRAINT fk_employee_department
+    -> FOREIGN KEY (dept_no)
+    -> REFERENCES department(dept_no)
+    -> ON DELETE CASCADE;
+Query OK, 0 rows affected (0.09 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc employee;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| emp_no    | int         | NO   | PRI | NULL    |       |
+| emp_name  | varchar(50) | YES  |     | NULL    |       |
+| place     | varchar(30) | YES  |     | NULL    |       |
+| ph_no     | int         | YES  |     | NULL    |       |
+| dept_name | varchar(30) | YES  |     | NULL    |       |
+| job_id    | int         | YES  |     | NULL    |       |
+| salary    | int         | YES  |     | NULL    |       |
+| dept_no   | int         | YES  | MUL | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql> alter table orders drop primary key;
+Query OK, 0 rows affected (0.10 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc orders;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| order_id   | int         | NO   |     | NULL    |       |
+| order_name | varchar(50) | NO   |     | NULL    |       |
+| person_id  | int         | YES  | MUL | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
