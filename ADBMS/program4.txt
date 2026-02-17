@@ -1,0 +1,296 @@
+create table Departmentt (Dept_id int primary key,Dept_name varchar(20) not null);
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> create table Employee (Emp_id int primary key,Emp_name varchar(50) not null, Design varchar(50),Dept_id int,Salary int,Joining_date date,foreign key (Dept_id)references Department(Dept_id));
+ERROR 1824 (HY000): Failed to open the referenced table 'Department'
+mysql> create table Employee (Emp_id int primary key,Emp_name varchar(50) not null, Design varchar(50),Dept_id int,Salary int,Joining_date date,foreign key (Dept_id)references Departmentt(Dept_id));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> insert into Department values(1,'HR'),(2,'IT'),(3,'Finance'),(4,'Admin'),(5,'Sales');
+ERROR 1146 (42S02): Table 'test.Department' doesn't exist
+mysql> insert into Departmentt values(1,'HR'),(2,'IT'),(3,'Finance'),(4,'Admin'),(5,'Sales');
+Query OK, 5 rows affected (0.03 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from Departmentt;
++---------+-----------+
+| Dept_id | Dept_name |
++---------+-----------+
+|       1 | HR        |
+|       2 | IT        |
+|       3 | Finance   |
+|       4 | Admin     |
+|       5 | Sales     |
++---------+-----------+
+5 rows in set (0.00 sec)
+
+mysql> insert into Employee values(110,'Anitta','Typist',1,10000,'2000-03-02'),
+    -> (111,'Veena','Analyst',2,128000,'2001-02-02'),
+    -> (112,'Mariya','Typist',1,40000,'2000-03-02'),
+    -> (113,'Geethu','Typist',2,50000,'2001-03-02'),
+    -> (114,'Joseph','Cler',3,20000,'2002-03-02'),
+    -> (115,'Alen','Manager',3,42000,'2003-03-02'),
+    -> (116,'Anu','Analyst',2,30000,'2003-03-02');
+Query OK, 7 rows affected (0.01 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+mysql> select * from Employee;
++--------+----------+---------+---------+--------+--------------+
+| Emp_id | Emp_name | Design  | Dept_id | Salary | Joining_date |
++--------+----------+---------+---------+--------+--------------+
+|    110 | Anitta   | Typist  |       1 |  10000 | 2000-03-02   |
+|    111 | Veena    | Analyst |       2 | 128000 | 2001-02-02   |
+|    112 | Mariya   | Typist  |       1 |  40000 | 2000-03-02   |
+|    113 | Geethu   | Typist  |       2 |  50000 | 2001-03-02   |
+|    114 | Joseph   | Cler    |       3 |  20000 | 2002-03-02   |
+|    115 | Alen     | Manager |       3 |  42000 | 2003-03-02   |
+|    116 | Anu      | Analyst |       2 |  30000 | 2003-03-02   |
++--------+----------+---------+---------+--------+--------------+
+7 rows in set (0.00 sec)
+mysql> alter table Employee add constraint fk_dept foreign key(Dept_id) references Departmentt(Dept_id);
+Query OK, 7 rows affected (0.11 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+mysql> select * from Employee;
++--------+----------+---------+---------+--------+--------------+
+| Emp_id | Emp_name | Design  | Dept_id | Salary | Joining_date |
++--------+----------+---------+---------+--------+--------------+
+|    110 | Anitta   | Typist  |       1 |  10000 | 2000-03-02   |
+|    111 | Veena    | Analyst |       2 | 128000 | 2001-02-02   |
+|    112 | Mariya   | Typist  |       1 |  40000 | 2000-03-02   |
+|    113 | Geethu   | Typist  |       2 |  50000 | 2001-03-02   |
+|    114 | Joseph   | Cler    |       3 |  20000 | 2002-03-02   |
+|    115 | Alen     | Manager |       3 |  42000 | 2003-03-02   |
+|    116 | Anu      | Analyst |       2 |  30000 | 2003-03-02   |
++--------+----------+---------+---------+--------+--------------+
+7 rows in set (0.00 sec)
+
+mysql> select e.Emp_name,d.Dept_name from Employee e join Departmentt d on e.Dept_id=d.Dept_id;
++----------+-----------+
+| Emp_name | Dept_name |
++----------+-----------+
+| Anitta   | HR        |
+| Veena    | IT        |
+| Mariya   | HR        |
+| Geethu   | IT        |
+| Joseph   | Finance   |
+| Alen     | Finance   |
+| Anu      | IT        |
++----------+-----------+
+7 rows in set (0.00 sec)
+
+
+mysql> select d.Dept_name from Employee e join Departmentt d on e.Dept_id=d.Dept_id where e.Emp_name='Geethu';
++-----------+
+| Dept_name |
++-----------+
+| IT        |
++-----------+
+1 row in set (0.00 sec)
+
+mysql> select e.Salary from Employee e join Departmentt d on e.Dept_id=d.Dept_id where d.Dept_name='HR
+    '> ';
+Empty set (0.01 sec)
+
+mysql> select e.Salary from Employee e join Departmentt d on e.Dept_id=d.Dept_id where d.Dept_name='HR';
++--------+
+| Salary |
++--------+
+|  10000 |
+|  40000 |
++--------+
+2 rows in set (0.00 sec)
+
+mysql> select * from Employee e join Departmentt d on e.Dept_id=d.Dept_id where e.Design='Analyst' and d.Dept_name='IT';
++--------+----------+---------+---------+--------+--------------+---------+-----------+
+| Emp_id | Emp_name | Design  | Dept_id | Salary | Joining_date | Dept_id | Dept_name |
++--------+----------+---------+---------+--------+--------------+---------+-----------+
+|    111 | Veena    | Analyst |       2 | 128000 | 2001-02-02   |       2 | IT        |
+|    116 | Anu      | Analyst |       2 |  30000 | 2003-03-02   |       2 | IT        |
++--------+----------+---------+---------+--------+--------------+---------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> select e.Salary from Employee e join Departmentt d on e.Dept_id=d.Dept_id where d.Dept_name='Finance';
++--------+
+| Salary |
++--------+
+|  20000 |
+|  42000 |
++--------+
+2 rows in set (0.00 sec)
+
+mysql> select * from Employee e join Departmentt d on e.Dept_id=d.Dept_id where d.Dept_name not in('Finance','HR');
++--------+----------+---------+---------+--------+--------------+---------+-----------+
+| Emp_id | Emp_name | Design  | Dept_id | Salary | Joining_date | Dept_id | Dept_name |
++--------+----------+---------+---------+--------+--------------+---------+-----------+
+|    111 | Veena    | Analyst |       2 | 128000 | 2001-02-02   |       2 | IT        |
+|    113 | Geethu   | Typist  |       2 |  50000 | 2001-03-02   |       2 | IT        |
+|    116 | Anu      | Analyst |       2 |  30000 | 2003-03-02   |       2 | IT        |
++--------+----------+---------+---------+--------+--------------+---------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> select Distinct d.Dept_name from Employee e join Departmentt d on e.Dept_id=d.Dept_id where e.Salary=(select max(Salary)from Employee);
++-----------+
+| Dept_name |
++-----------+
+| IT        |
++-----------+
+1 row in set (0.00 sec)
+
+mysql> select Dept_id from Employee group by Dept_id having count(*)=(select min(cnt)from (select count(*)cnt from Employee group by Dept_id)t);
++---------+
+| Dept_id |
++---------+
+|       1 |
+|       3 |
++---------+
+2 rows in set (0.01 sec)
+
+
+
+mysql> select Emp_name from Employee e where Salary >(select avg(Salary)from Employee where Dept_id=e.Dept_id);
++----------+
+| Emp_name |
++----------+
+| Veena    |
+| Mariya   |
+| Alen     |
++----------+
+3 rows in set (0.00 sec)
+
+mysql> select Dept_id,count(*)as Number_of_dept_employees from Employee group by Dept_id having count(*)>2;
++---------+--------------------------+
+| Dept_id | Number_of_dept_employees |
++---------+--------------------------+
+|       2 |                        3 |
++---------+--------------------------+
+1 row in set (0.00 sec)
+
+mysql> select Dept_id,min(Salary)as lowest_salary from Employee group by Dept_id;
++---------+---------------+
+| Dept_id | lowest_salary |
++---------+---------------+
+|       1 |         10000 |
+|       2 |         30000 |
+|       3 |         20000 |
++---------+---------------+
+3 rows in set (0.01 sec)
+
+mysql> select Dept_id,Emp_name from Employee e where Salary =(select max(Salary)from Employee where Dept_id=e.Dept_id);
++---------+----------+
+| Dept_id | Emp_name |
++---------+----------+
+|       2 | Veena    |
+|       1 | Mariya   |
+|       3 | Alen     |
++---------+----------+
+3 rows in set (0.01 sec)
+
+
+mysql> SELECT d.Dept_name 
+    -> FROM Employee e 
+    -> JOIN Departmentt d ON e.Dept_id = d.Dept_id 
+    -> GROUP BY d.Dept_name 
+    -> HAVING SUM(e.Salary) = (
+    ->     SELECT MIN(total_sal) 
+    ->     FROM (
+    ->         SELECT SUM(Salary) AS total_sal 
+    ->         FROM Employee 
+    ->         GROUP BY Dept_id
+    ->     ) AS t
+    -> );
++-----------+
+| Dept_name |
++-----------+
+| HR        |
++-----------+
+1 row in set (0.01 sec)
+
+mysql> select Emp_name from Employee where year(Joining_date)=2000;
++----------+
+| Emp_name |
++----------+
+| Anitta   |
+| Mariya   |
++----------+
+2 rows in set (0.00 sec)
+
+mysql> select Emp_name from Employee where month(Joining_date)=8;
+Empty set (0.00 sec)
+
+mysql> select * from Departmentt d where not exists(select 1 from Employee e where e.Dept_id=d.Dept_id);
++---------+-----------+
+| Dept_id | Dept_name |
++---------+-----------+
+|       4 | Admin     |
+|       5 | Sales     |
++---------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> insert into Employee values(120,'Rahul','Clerk',NULL,15000,'2004-01-01');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select d.Dept_name,e.Emp_name from Departmentt d left join Employee e on d.Dept_id=e.Dept_id;
++-----------+----------+
+| Dept_name | Emp_name |
++-----------+----------+
+| HR        | Anitta   |
+| HR        | Mariya   |
+| IT        | Veena    |
+| IT        | Geethu   |
+| IT        | Anu      |
+| Finance   | Joseph   |
+| Finance   | Alen     |
+| Admin     | NULL     |
+| Sales     | NULL     |
++-----------+----------+
+9 rows in set (0.00 sec)
+
+mysql> select e.Emp_name,d.Dept_name from Employee e left join Departmentt d on e.Dept_id=d.Dept_id;
++----------+-----------+
+| Emp_name | Dept_name |
++----------+-----------+
+| Anitta   | HR        |
+| Veena    | IT        |
+| Mariya   | HR        |
+| Geethu   | IT        |
+| Joseph   | Finance   |
+| Alen     | Finance   |
+| Anu      | IT        |
+| Rahul    | NULL      |
++----------+-----------+
+8 rows in set (0.00 sec)
+
+
+mysql> select Emp_name,coalesce(Dept_id,0)as Dept_id from Employee;
++----------+---------+
+| Emp_name | Dept_id |
++----------+---------+
+| Anitta   |       1 |
+| Veena    |       2 |
+| Mariya   |       1 |
+| Geethu   |       2 |
+| Joseph   |       3 |
+| Alen     |       3 |
+| Anu      |       2 |
+| Rahul    |       0 |
++----------+---------+
+8 rows in set (0.01 sec)
+
+mysql> select d.Dept_name,e.Emp_name from Departmentt d left join Employee e on d.Dept_id=e.Dept_id union select d.Dept_name,e.Emp_name from Departmentt d right join Employee e on d.Dept_id=e.Dept_id;
++-----------+----------+
+| Dept_name | Emp_name |
++-----------+----------+
+| HR        | Anitta   |
+| HR        | Mariya   |
+| IT        | Veena    |
+| IT        | Geethu   |
+| IT        | Anu      |
+| Finance   | Joseph   |
+| Finance   | Alen     |
+| Admin     | NULL     |
+| Sales     | NULL     |
+| NULL      | Rahul    |
++-----------+----------+
+10 rows in set (0.01 sec)
+
