@@ -1,0 +1,112 @@
+#!/bin/bash
+
+# =====================================================
+# BASIC LINUX COMMANDS WITH EXAMPLES
+# =====================================================
+
+echo "===== BASIC LINUX COMMANDS DEMONSTRATION ====="
+
+# -----------------------------------------------------
+# 1. pwd - Print Working Directory
+# -----------------------------------------------------
+echo "1. pwd (Print Working Directory)"
+pwd
+
+
+# -----------------------------------------------------
+# 2. ls - List files
+# -----------------------------------------------------
+echo "2. ls (List files)"
+ls
+
+
+# -----------------------------------------------------
+# 3. date - Show current date
+# -----------------------------------------------------
+echo "3. date"
+date
+
+
+# -----------------------------------------------------
+# 4. cal - Show calendar
+# -----------------------------------------------------
+echo "4. cal"
+cal
+
+
+# -----------------------------------------------------
+# 5. who - Show logged in users
+# -----------------------------------------------------
+echo "5. who"
+who
+
+
+# -----------------------------------------------------
+# 6. Creating a directory using mkdir
+# -----------------------------------------------------
+echo "6. mkdir (Creating directory 'testdir')"
+mkdir testdir
+
+
+# -----------------------------------------------------
+# 7. Creating a file using touch
+# -----------------------------------------------------
+echo "7. touch (Creating file testfile.txt)"
+touch testfile.txt
+
+
+# -----------------------------------------------------
+# 8. Copy file using cp
+# -----------------------------------------------------
+echo "8. cp (Copy testfile.txt to copyfile.txt)"
+cp testfile.txt copyfile.txt
+
+
+# -----------------------------------------------------
+# 9. Rename file using mv
+# -----------------------------------------------------
+echo "9. mv (Rename copyfile.txt to newfile.txt)"
+mv copyfile.txt newfile.txt
+
+
+# -----------------------------------------------------
+# 10. Display file using cat
+# -----------------------------------------------------
+echo "10. cat (Display file)"
+cat testfile.txt
+
+
+# -----------------------------------------------------
+# 11. Word count using wc
+# -----------------------------------------------------
+echo "11. wc (Word count)"
+wc testfile.txt
+
+
+# -----------------------------------------------------
+# 12. Remove file using rm
+# -----------------------------------------------------
+echo "12. rm (Removing newfile.txt)"
+rm newfile.txt
+
+
+# -----------------------------------------------------
+# 13. Remove directory using rmdir
+# -----------------------------------------------------
+echo "13. rmdir (Removing testdir)"
+rmdir testdir
+
+
+# -----------------------------------------------------
+# 14. echo command
+# -----------------------------------------------------
+echo "14. echo command example"
+echo "Hello MCA Students"
+
+
+# -----------------------------------------------------
+# 15. chmod (Giving execute permission to this file)"
+# -----------------------------------------------------
+echo "15. chmod example (Already executable if running)"
+
+echo "===== END OF BASIC COMMANDS DEMO ====="
