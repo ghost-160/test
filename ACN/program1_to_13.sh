@@ -202,3 +202,72 @@ do
         echo $num
     fi
 done
+
+
+#!/bin/bash
+
+echo "=================================="
+echo "      BASIC SHELL PROGRAMS       "
+echo "=================================="
+
+# =====================================================
+# 11. Sum of Squares of Individual Digits
+# =====================================================
+
+echo "----------- 1. Sum of Squares -----------"
+echo "Enter a number:"
+read num
+
+sum=0
+temp=$num
+
+while [ $temp -gt 0 ]
+do
+    digit=$((temp % 10))
+    sum=$((sum + digit * digit))
+    temp=$((temp / 10))
+done
+
+echo "Sum of squares of digits = $sum"
+echo
+
+# =====================================================
+# 12. Count Number of Vowels
+# =====================================================
+
+echo "----------- 2. Count Vowels -----------"
+echo "Enter a line of text:"
+read line
+
+count=$(echo "$line" | grep -o -i "[aeiou]" | wc -l)
+
+echo "Number of vowels = $count"
+echo
+
+# =====================================================
+# 13. Display Student Grade
+# =====================================================
+
+echo "----------- 3. Student Grade -----------"
+echo "Enter student marks:"
+read marks
+
+if [ $marks -ge 90 ]
+then
+    grade="A"
+elif [ $marks -ge 75 ]
+then
+    grade="B"
+elif [ $marks -ge 60 ]
+then
+    grade="C"
+elif [ $marks -ge 50 ]
+then
+    grade="D"
+else
+    grade="Fail"
+fi
+
+echo "Grade = $grade"
+echo
+echo "=========== END OF PROGRAMS ==========="
