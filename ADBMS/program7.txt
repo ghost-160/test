@@ -1,0 +1,400 @@
+mysql> create database pro;
+Query OK, 1 row affected (0.03 sec)
+
+mysql> use pro;
+Database changed
+mysql> create table employee (emp_id int primary key,name varchar(50),salary int );
+Query OK, 0 rows affected (0.05 sec)
+
+insert into employee values (1,'Arun',25000),(2,'Rahul',32000),(3,'Meena',28000),(4,'Anu',40000);
+Query OK, 4 rows affected (0.02 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select * from employees;
+ERROR 1146 (42S02): Table 'pro.employees' doesn't exist
+mysql> select * from employee;
++--------+-------+--------+
+| emp_id | name  | salary |
++--------+-------+--------+
+|      1 | Arun  |  25000 |
+|      2 | Rahul |  32000 |
+|      3 | Meena |  28000 |
+|      4 | Anu   |  40000 |
++--------+-------+--------+
+4 rows in set (0.00 sec)
+
+create procedure increase_salary() begin  declare done int default 0;  declare e_id int;  declare sal int;  declare emp_cursor cursor for select emp_id,salary from employee;  declare continue handler for not found set done=1;  open emp_cursor;  read_loop:loop   fetch emp_cursor into e_id,sal;   if done then     leave read_loop;   end if;   if sal<30000 then     update employee      set salary =salary *1.10 where emp_id=e_id;   end if;  end loop;  close emp_cursor; end$$
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> delimiter ;
+mysql> call increase_salary();
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select * from employee;
++--------+-------+--------+
+| emp_id | name  | salary |
++--------+-------+--------+
+|      1 | Arun  |  27500 |
+|      2 | Rahul |  32000 |
+|      3 | Meena |  30800 |
+|      4 | Anu   |  40000 |
++--------+-------+--------+
+4 rows in set (0.00 sec)
+
+mysql> create table electricity(cust_id int,name varchar(50),unit int,bill_amount int);
+Query OK, 0 rows affected (0.07 sec)
+
+insert into electricity values (1,'Ajay',120,NULL),(2,'Meera',250,NULL),(3,'Ravi',80,NULL);
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from electricity ;
++---------+-------+------+-------------+
+| cust_id | name  | unit | bill_amount |
++---------+-------+------+-------------+
+|       1 | Ajay  |  120 |        NULL |
+|       2 | Meera |  250 |        NULL |
+|       3 | Ravi  |   80 |        NULL |
++---------+-------+------+-------------+
+3 rows in set (0.00 sec)
+
+ 
+mysql> create procedure calculate_bill()
+    -> begin
+    ->   declare done int default 0;
+    ->   declare cid int;
+    ->   declare unit int;
+    ->   declare amount int;
+    -> 
+    ->   declare cur cursor for 
+    ->       select cust_id, units from electricity;
+    -> 
+    ->   declare continue handler for not found set done = 1;
+    -> 
+    ->   open cur;
+    -> 
+    ->   read_loop: loop
+    ->     fetch cur into cid, unit;
+    -> 
+    ->     if done then
+    ->       leave read_loop;
+    ->     end if;
+    -> 
+    ->     if unit <= 100 then
+    ->         set amount = unit * 3;
+    ->     elseif unit <= 200 then
+    ->         set amount = unit * 5;
+    ->     else
+    ->         set amount = unit * 7;
+    ->     end if;
+    -> 
+    ->     update electricity
+    ->     set bill_amount = amount
+    ->     where cust_id = cid;
+    -> 
+    ->   end loop;
+    -> 
+    ->   close cur;
+    -> end $$
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> delimiter ;
+mysql> call calculate_bill();
+ERROR 1054 (42S22): Unknown column 'units' in 'field list'
+mysql> show columns from electricity;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| cust_id     | int         | YES  |     | NULL    |       |
+| name        | varchar(50) | YES  |     | NULL    |       |
+| unit        | int         | YES  |     | NULL    |       |
+| bill_amount | int         | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+4 rows in set (0.02 sec)
+
+mysql> drop procedure calculate_bill;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter $$
+mysql> 
+mysql> create procedure calculate_bill()
+    -> begin
+    ->   declare done int default 0;
+    ->   declare cid int;
+    ->   declare unit int;
+    ->   declare amount int;
+    -> 
+    ->   declare cur cursor for 
+    ->       select cust_id, unit from electricity;
+    -> 
+    ->   declare continue handler for not found set done = 1;
+    -> 
+    ->   open cur;
+    -> 
+    ->   read_loop: loop
+    ->     fetch cur into cid, unit;
+    -> 
+    ->     if done then
+    ->       leave read_loop;
+    ->     end if;
+    -> 
+    ->     if unit <= 100 then
+    ->         set amount = unit * 3;
+    ->     elseif unit <= 200 then
+    ->         set amount = unit * 5;
+    ->     else
+    ->         set amount = unit * 7;
+    ->     end if;
+    -> 
+    ->     update electricity
+    ->     set bill_amount = amount
+    ->     where cust_id = cid;
+    -> 
+    ->   end loop;
+    -> 
+    ->   close cur;
+    -> end $$
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> delimiter ;
+mysql> call calculate_bill();
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from electricity;
++---------+-------+------+-------------+
+| cust_id | name  | unit | bill_amount |
++---------+-------+------+-------------+
+|       1 | Ajay  |  120 |        NULL |
+|       2 | Meera |  250 |        NULL |
+|       3 | Ravi  |   80 |        NULL |
++---------+-------+------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> create table emp_history ( emp_id int,name varchar(50),salary int,date_of_deletion date);
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> delimiter $$
+mysql> 
+mysql> create trigger emp_delete_trigger
+    -> after delete on employee
+    -> for each row
+    -> begin
+    -> insert into emp_history
+    -> values(old.emp_id,old.name,old.salary,curdate());
+    -> end $$
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> delimiter ;
+mysql> delete from employee where emp_id=1;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from emp_history;
++--------+------+--------+------------------+
+| emp_id | name | salary | date_of_deletion |
++--------+------+--------+------------------+
+|      1 | Arun |  27500 | 2026-03-10       |
++--------+------+--------+------------------+
+1 row in set (0.00 sec)
+
+mysql> create table emp_details( id int,name varchar(50),job_id varchar(20));
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> delimiter $$
+mysql> 
+mysql> create trigger before_insert_emp
+    -> before insert on emp_details
+    -> for each row
+    -> begin
+    -> set new.name=trim(new.name);
+    -> set new.job_id=upper(new.job_id);
+    -> end $$
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql>  insert into emp_details values(1,'arun','developer');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from emp_details;
++------+------+-----------+
+| id   | name | job_id    |
++------+------+-----------+
+|    1 | arun | DEVELOPER |
++------+------+-----------+
+1 row in set (0.00 sec)
+create table student(id int,name varchar(50),sub1 int,sub2 int,sub3 int,total int,percentabe float,grade char(2));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> insert into student values(1,'Rahul',70,80,90,NULL,NULL,NULL);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> delimiter $$
+mysql> 
+mysql> create trigger marks_update 
+    -> after update on student
+    -> for each row
+    -> begin
+    -> declare tot int;
+    -> declare per float;
+    -> set tot=new.sub1+new.sub2+new.sub3;
+    -> set per=tot/3;
+    -> update student
+    -> set total=tot,
+    -> percentage =per,
+    -> grade=
+    ->  case
+    ->   when per>=90 then 'A'
+    ->   when per>=75 then 'B'
+    ->   when per>=60 then 'C'
+    ->   else 'D'
+    ->  end
+    -> where  id=new.id;
+    -> end $$
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> delimiter ;
+mysql>  update student set sub1=95 where id=1;
+ERROR 1054 (42S22): Unknown column 'percentage' in 'field list'
+mysql> delimiter $$
+mysql> 
+mysql> create trigger marks_update
+    -> before update on student
+    -> for each row
+    -> begin
+    ->   declare tot int;
+    ->   declare per float;
+    -> 
+    ->   set tot = new.sub1 + new.sub2 + new.sub3;
+    ->   set per = tot / 3;
+    -> 
+    ->   set new.total = tot;
+    ->   set new.percentabe = per;
+    -> 
+    ->   set new.grade =
+    ->   case
+    ->     when per >= 90 then 'A'
+    ->     when per >= 75 then 'B'
+    ->     when per >= 60 then 'C'
+    ->     else 'D'
+    ->   end;
+    -> 
+    -> end $$
+ERROR 1359 (HY000): Trigger already exists
+mysql> drop trigger marks_update;
+    -> delimiter $$
+Query OK, 0 rows affected (0.02 sec)
+
+use pro;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> delimiter $$
+mysql> 
+mysql> 
+mysql> create trigger marks_update
+    -> before update on student
+    -> for each row
+    -> begin
+    ->   declare tot int;
+    ->   declare per float;
+    -> 
+    ->   set tot = new.sub1 + new.sub2 + new.sub3;
+    ->   set per = tot / 3;
+    -> 
+    ->   set new.total = tot;
+    ->   set new.percentabe = per;
+    -> 
+    ->   set new.grade =
+    ->   case
+    ->     when per >= 90 then 'A'
+    ->     when per >= 75 then 'B'
+    ->     when per >= 60 then 'C'
+    ->     else 'D'
+    ->   end;
+    -> 
+    -> end $$
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> delimiter ;
+mysql> update student set sub1 = 95 where id = 1;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from student;
++------+-------+------+------+------+-------+------------+-------+
+| id   | name  | sub1 | sub2 | sub3 | total | percentabe | grade |
++------+-------+------+------+------+-------+------------+-------+
+|    1 | Rahul |   95 |   80 |   90 |   265 |    88.3333 | B     |
++------+-------+------+------+------+-------+------------+-------+
+1 row in set (0.00 sec)
+
+ select * from electricity;
++---------+-------+------+-------------+
+| cust_id | name  | unit | bill_amount |
++---------+-------+------+-------------+
+|       1 | Ajay  |  120 |        NULL |
+|       2 | Meera |  250 |        NULL |
+|       3 | Ravi  |   80 |        NULL |
++---------+-------+------+-------------+
+3 rows in set (0.00 sec)
+DROP PROCEDURE calculate_bill;
+    -> $$
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> DELIMITER $$
+mysql> 
+mysql> CREATE PROCEDURE calculate_bill()
+    -> BEGIN
+    ->   DECLARE done INT DEFAULT 0;
+    ->   DECLARE cid INT;
+    ->   DECLARE u INT;
+    ->   DECLARE amount INT;
+    -> 
+    ->   DECLARE cur CURSOR FOR
+    ->   SELECT cust_id, unit FROM electricity;
+    -> 
+    ->   DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
+    -> 
+    ->   OPEN cur;
+    -> 
+    ->   read_loop: LOOP
+    ->     FETCH cur INTO cid, u;
+    -> 
+    ->     IF done THEN
+    ->       LEAVE read_loop;
+    ->     END IF;
+    -> 
+    ->     IF u <= 100 THEN
+    ->       SET amount = u * 3;
+    ->     ELSEIF u <= 200 THEN
+    ->       SET amount = u * 5;
+    ->     ELSE
+    ->       SET amount = u * 7;
+    ->     END IF;
+    -> 
+    ->     UPDATE electricity
+    ->     SET bill_amount = amount
+    ->     WHERE cust_id = cid;
+    -> 
+    ->   END LOOP;
+    -> 
+    ->   CLOSE cur;
+    -> 
+    -> END $$
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+mysql> DELIMITER ;
+mysql> CALL calculate_bill();
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> SELECT * FROM electricity;
++---------+-------+------+-------------+
+| cust_id | name  | unit | bill_amount |
++---------+-------+------+-------------+
+|       1 | Ajay  |  120 |         600 |
+|       2 | Meera |  250 |        1750 |
+|       3 | Ravi  |   80 |         240 |
++---------+-------+------+-------------+
+3 rows in set (0.00 sec)
+
