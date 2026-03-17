@@ -1,0 +1,453 @@
+ mongosh
+Current Mongosh Log ID:	69b90daba30ae6f404ce5f46
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.5.8
+Using MongoDB:		8.2.1
+Using Mongosh:		2.5.8
+
+For mongosh info see: https://www.mongodb.com/docs/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2026-03-17T13:44:56.487+05:30: Using the XFS filesystem is strongly recommended with the WiredTiger storage engine. See http://dochub.mongodb.org/core/prodnotes-filesystem
+   2026-03-17T13:44:56.728+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+   2026-03-17T13:44:56.728+05:30: For customers running the current memory allocator, we suggest changing the contents of the following sysfsFile
+   2026-03-17T13:44:56.728+05:30: For customers running the current memory allocator, we suggest changing the contents of the following sysfsFile
+   2026-03-17T13:44:56.728+05:30: We suggest setting the contents of sysfsFile to 0.
+   2026-03-17T13:44:56.728+05:30: We suggest setting swappiness to 0 or 1, as swapping can cause performance problems.
+------
+
+test> use college
+switched to db college
+college> db.createCollection("student")
+{ ok: 1 }
+college> db.student.insertMany([
+...   {rollno:1,name:"Arun",department:"MCA",semester:1,cgpa:8.1},
+...   {rollno:2,name:"Rahul",department:"MCA",semester:2,cgpa:7.5},
+...   {rollno:3,name:"Anu",department:"MBA",semester:1,cgpa:8.0},
+...   {rollno:4,name:"Meera",department:"MCA",semester:3,cgpa:7.8},
+...   {rollno:5,name:"John",department:"BCA",semester:2,cgpa:6.9},
+...   {rollno:6,name:"Sneha",department:"MCA",semester:1,cgpa:8.7},
+...   {rollno:7,name:"Varun",department:"MBA",semester:4,cgpa:7.0},
+...   {rollno:8,name:"Nikhil",department:"MCA",semester:2,cgpa:7.9},
+...   {rollno:9,name:"Akhil",department:"BCA",semester:3,cgpa:6.8},
+...   {rollno:10,name:"Divya",department:"MCA",semester:1,cgpa:8.2}
+... ])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('69b910eca30ae6f404ce5f47'),
+    '1': ObjectId('69b910eca30ae6f404ce5f48'),
+    '2': ObjectId('69b910eca30ae6f404ce5f49'),
+    '3': ObjectId('69b910eca30ae6f404ce5f4a'),
+    '4': ObjectId('69b910eca30ae6f404ce5f4b'),
+    '5': ObjectId('69b910eca30ae6f404ce5f4c'),
+    '6': ObjectId('69b910eca30ae6f404ce5f4d'),
+    '7': ObjectId('69b910eca30ae6f404ce5f4e'),
+    '8': ObjectId('69b910eca30ae6f404ce5f4f'),
+    '9': ObjectId('69b910eca30ae6f404ce5f50')
+  }
+}
+college> db.student.find({department:"MCA"})
+[
+  {
+    _id: ObjectId('69b910eca30ae6f404ce5f47'),
+    rollno: 1,
+    name: 'Arun',
+    department: 'MCA',
+    semester: 1,
+    cgpa: 8.1
+  },
+  {
+    _id: ObjectId('69b910eca30ae6f404ce5f48'),
+    rollno: 2,
+    name: 'Rahul',
+    department: 'MCA',
+    semester: 2,
+    cgpa: 7.5
+  },
+  {
+    _id: ObjectId('69b910eca30ae6f404ce5f4a'),
+    rollno: 4,
+    name: 'Meera',
+    department: 'MCA',
+    semester: 3,
+    cgpa: 7.8
+  },
+  {
+    _id: ObjectId('69b910eca30ae6f404ce5f4c'),
+    rollno: 6,
+    name: 'Sneha',
+    department: 'MCA',
+    semester: 1,
+    cgpa: 8.7
+  },
+  {
+    _id: ObjectId('69b910eca30ae6f404ce5f4e'),
+    rollno: 8,
+    name: 'Nikhil',
+    department: 'MCA',
+    semester: 2,
+    cgpa: 7.9
+  },
+  {
+    _id: ObjectId('69b910eca30ae6f404ce5f50'),
+    rollno: 10,
+    name: 'Divya',
+    department: 'MCA',
+    semester: 1,
+    cgpa: 8.2
+  }
+]
+college> db.student.updateMany({department:"MCA"},{$set:{semester:1}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 6,
+  modifiedCount: 3,
+  upsertedCount: 0
+}
+college> db.student.find()
+[
+  {
+    _id: ObjectId('69b910eca30ae6f404ce5f47'),
+    rollno: 1,
+    name: 'Arun',
+    department: 'MCA',
+    semester: 1,
+    cgpa: 8.1
+  },
+  {
+    _id: ObjectId('69b910eca30ae6f404ce5f48'),
+    rollno: 2,
+    name: 'Rahul',
+    department: 'MCA',
+    semester: 1,
+    cgpa: 7.5
+  },
+  {
+    _id: ObjectId('69b910eca30ae6f404ce5f49'),
+    rollno: 3,
+    name: 'Anu',
+    department: 'MBA',
+    semester: 1,
+    cgpa: 8
+  },
+  {
+    _id: ObjectId('69b910eca30ae6f404ce5f4a'),
+    rollno: 4,
+    name: 'Meera',
+    department: 'MCA',
+    semester: 1,
+    cgpa: 7.8
+  },
+  {
+    _id: ObjectId('69b910eca30ae6f404ce5f4b'),
+    rollno: 5,
+    name: 'John',
+    department: 'BCA',
+    semester: 2,
+    cgpa: 6.9
+  },
+  {
+    _id: ObjectId('69b910eca30ae6f404ce5f4c'),
+    rollno: 6,
+    name: 'Sneha',
+    department: 'MCA',
+    semester: 1,
+    cgpa: 8.7
+  },
+  {
+    _id: ObjectId('69b910eca30ae6f404ce5f4d'),
+    rollno: 7,
+    name: 'Varun',
+    department: 'MBA',
+    semester: 4,
+    cgpa: 7
+  },
+  {
+    _id: ObjectId('69b910eca30ae6f404ce5f4e'),
+    rollno: 8,
+    name: 'Nikhil',
+    department: 'MCA',
+    semester: 1,
+    cgpa: 7.9
+  },
+  {
+    _id: ObjectId('69b910eca30ae6f404ce5f4f'),
+    rollno: 9,
+    name: 'Akhil',
+    department: 'BCA',
+    semester: 3,
+    cgpa: 6.8
+  },
+  {
+    _id: ObjectId('69b910eca30ae6f404ce5f50'),
+    rollno: 10,
+    name: 'Divya',
+    department: 'MCA',
+    semester: 1,
+    cgpa: 8.2
+  }
+]
+college> db.student.find().pretty()
+[
+  {
+    _id: ObjectId('69b910eca30ae6f404ce5f47'),
+    rollno: 1,
+    name: 'Arun',
+    department: 'MCA',
+    semester: 1,
+    cgpa: 8.1
+  },
+  {
+    _id: ObjectId('69b910eca30ae6f404ce5f48'),
+    rollno: 2,
+    name: 'Rahul',
+    department: 'MCA',
+    semester: 1,
+    cgpa: 7.5
+  },
+  {
+    _id: ObjectId('69b910eca30ae6f404ce5f49'),
+    rollno: 3,
+    name: 'Anu',
+    department: 'MBA',
+    semester: 1,
+    cgpa: 8
+  },
+  {
+    _id: ObjectId('69b910eca30ae6f404ce5f4a'),
+    rollno: 4,
+    name: 'Meera',
+    department: 'MCA',
+    semester: 1,
+    cgpa: 7.8
+  },
+  {
+    _id: ObjectId('69b910eca30ae6f404ce5f4b'),
+    rollno: 5,
+    name: 'John',
+    department: 'BCA',
+    semester: 2,
+    cgpa: 6.9
+  },
+  {
+    _id: ObjectId('69b910eca30ae6f404ce5f4c'),
+    rollno: 6,
+    name: 'Sneha',
+    department: 'MCA',
+    semester: 1,
+    cgpa: 8.7
+  },
+  {
+    _id: ObjectId('69b910eca30ae6f404ce5f4d'),
+    rollno: 7,
+    name: 'Varun',
+    department: 'MBA',
+    semester: 4,
+    cgpa: 7
+  },
+  {
+    _id: ObjectId('69b910eca30ae6f404ce5f4e'),
+    rollno: 8,
+    name: 'Nikhil',
+    department: 'MCA',
+    semester: 1,
+    cgpa: 7.9
+  },
+  {
+    _id: ObjectId('69b910eca30ae6f404ce5f4f'),
+    rollno: 9,
+    name: 'Akhil',
+    department: 'BCA',
+    semester: 3,
+    cgpa: 6.8
+  },
+  {
+    _id: ObjectId('69b910eca30ae6f404ce5f50'),
+    rollno: 10,
+    name: 'Divya',
+    department: 'MCA',
+    semester: 1,
+    cgpa: 8.2
+  }
+]
+college> use inventory
+switched to db inventory
+db.products.insertMany([
+... {
+... _id:1,name:"Phone",price:799,releaseDate:ISODate("2011-05-24"),spec:{ram:4,screen:6.5,cpu:2.66},color:["white","black"],storage:[64,128,256]},
+... {
+... _id:2,name:"Tablet",price:799,releaseDate:ISODate("2011-09-01"),spec:{ram:16,screen:9.5,cpu:3.66},color:["white","black","purple"],storage:[128,256,512]},
+... {
+... _id:3,name:"Smartphone",price:899,releaseDate:ISODate("2022-01-14"),spec:{ram:12,screen:9.7,cpu:1.66},color:["blue"],storage:[16,64,128]}])
+... 
+... 
+{ acknowledged: true, insertedIds: { '0': 1, '1': 2, '2': 3 } }
+ db.products.find()
+[
+  {
+    _id: 1,
+    name: 'Phone',
+    price: 799,
+    releaseDate: ISODate('2011-05-24T00:00:00.000Z'),
+    spec: { ram: 4, screen: 6.5, cpu: 2.66 },
+    color: [ 'white', 'black' ],
+    storage: [ 64, 128, 256 ]
+  },
+  {
+    _id: 2,
+    name: 'Tablet',
+    price: 799,
+    releaseDate: ISODate('2011-09-01T00:00:00.000Z'),
+    spec: { ram: 16, screen: 9.5, cpu: 3.66 },
+    color: [ 'white', 'black', 'purple' ],
+    storage: [ 128, 256, 512 ]
+  },
+  {
+    _id: 3,
+    name: 'Smartphone',
+    price: 899,
+    releaseDate: ISODate('2022-01-14T00:00:00.000Z'),
+    spec: { ram: 12, screen: 9.7, cpu: 1.66 },
+    color: [ 'blue' ],
+    storage: [ 16, 64, 128 ]
+  }
+]
+db.products.findOne()
+{
+  _id: 1,
+  name: 'Phone',
+  price: 799,
+  releaseDate: ISODate('2011-05-24T00:00:00.000Z'),
+  spec: { ram: 4, screen: 6.5, cpu: 2.66 },
+  color: [ 'white', 'black' ],
+  storage: [ 64, 128, 256 ]
+}
+inventory> db.products.find({_id:2},{name:1,price:1})
+[ { _id: 2, name: 'Tablet', price: 799 } ]
+inventory> db.products.find({price:799})
+[
+  {
+    _id: 1,
+    name: 'Phone',
+    price: 799,
+    releaseDate: ISODate('2011-05-24T00:00:00.000Z'),
+    spec: { ram: 4, screen: 6.5, cpu: 2.66 },
+    color: [ 'white', 'black' ],
+    storage: [ 64, 128, 256 ]
+  },
+  {
+    _id: 2,
+    name: 'Tablet',
+    price: 799,
+    releaseDate: ISODate('2011-09-01T00:00:00.000Z'),
+    spec: { ram: 16, screen: 9.5, cpu: 3.66 },
+    color: [ 'white', 'black', 'purple' ],
+    storage: [ 128, 256, 512 ]
+  }
+]
+inventory> db.products.deleteOne({_id:1})
+{ acknowledged: true, deletedCount: 1 }
+inventory> db.products.find({"spec.ram":12},{name:1,"spec.ram":1})
+[ { _id: 3, name: 'Smartphone', spec: { ram: 12 } } ]
+inventory> db.products.find({"spec.screen":{$lt:7}})
+
+inventory> db.products.fine({price:{$lt:1000}},{name:1,price:1})
+db.products.find({price:{$lt:1000}},{name:1,price:1})
+[
+  { _id: 2, name: 'Tablet', price: 799 },
+  { _id: 3, name: 'Smartphone', price: 899 }
+]
+inventory> db.products.find({price:{$in:[699,799]}},{name:1,price:1})
+[ { _id: 2, name: 'Tablet', price: 799 } ]
+inventory> db.products.find({color:{$in:["black","white"]}})
+[
+  {
+    _id: 2,
+    name: 'Tablet',
+    price: 799,
+    releaseDate: ISODate('2011-09-01T00:00:00.000Z'),
+    spec: { ram: 16, screen: 9.5, cpu: 3.66 },
+    color: [ 'white', 'black', 'purple' ],
+    storage: [ 128, 256, 512 ]
+  }
+]
+inventory> db.products.find({price:{$nin:[699,799]}},{name:1,price:1})
+[ { _id: 3, name: 'Smartphone', price: 899 } ]
+inventory> db.products.find({$and:[{price:799},{color:{$in:["white","black"]}}]},{name:1,price:1,color:1})
+[
+  {
+    _id: 2,
+    name: 'Tablet',
+    price: 799,
+    color: [ 'white', 'black', 'purple' ]
+  }
+]
+inventory> db.products.find({$or:[{price:{$lt:699}},{price:{$gt:799}}]})
+[
+  {
+    _id: 3,
+    name: 'Smartphone',
+    price: 899,
+    releaseDate: ISODate('2022-01-14T00:00:00.000Z'),
+    spec: { ram: 12, screen: 9.7, cpu: 1.66 },
+    color: [ 'blue' ],
+    storage: [ 16, 64, 128 ]
+  }
+]
+db.products.find(
+...   { releaseDate: { $exists: true } },
+...   { name: 1, releaseDate: 1 }
+... ).sort({ releaseDate: -1 })
+[
+  {
+    _id: 3,
+    name: 'Smartphone',
+    releaseDate: ISODate('2022-01-14T00:00:00.000Z')
+  },
+  {
+    _id: 2,
+    name: 'Tablet',
+    releaseDate: ISODate('2011-09-01T00:00:00.000Z')
+  }
+]
+inventory> db.products.find().sort({name:1,price:1})
+[
+  {
+    _id: 3,
+    name: 'Smartphone',
+    price: 899,
+    releaseDate: ISODate('2022-01-14T00:00:00.000Z'),
+    spec: { ram: 12, screen: 9.7, cpu: 1.66 },
+    color: [ 'blue' ],
+    storage: [ 16, 64, 128 ]
+  },
+  {
+    _id: 2,
+    name: 'Tablet',
+    price: 799,
+    releaseDate: ISODate('2011-09-01T00:00:00.000Z'),
+    spec: { ram: 16, screen: 9.5, cpu: 3.66 },
+    color: [ 'white', 'black', 'purple' ],
+    storage: [ 128, 256, 512 ]
+  }
+]
+inventory> db.products.find().sort({price:-1}).limit(1)
+[
+  {
+    _id: 3,
+    name: 'Smartphone',
+    price: 899,
+    releaseDate: ISODate('2022-01-14T00:00:00.000Z'),
+    spec: { ram: 12, screen: 9.7, cpu: 1.66 },
+    color: [ 'blue' ],
+    storage: [ 16, 64, 128 ]
+  }
+]
+inventory> db.products.find().skip(2).limit(2)
+
+inventory> db.products.find()
+... db.products.countDocuments()
+2
+inventory> 
